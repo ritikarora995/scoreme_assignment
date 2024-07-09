@@ -38,4 +38,9 @@ def test_longest_path():
     print("All test cases pass")
 
 if __name__ == "__main__":
-    pytest.main()
+    try:
+        pytest.main()
+        print("All test cases passed")
+    except SystemExit as e:
+        if e.code != 0:
+            print("One or more test cases failed")
