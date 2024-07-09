@@ -1,7 +1,3 @@
-
-### 2. `main.py`
-
-```python
 """
 Assignment: Implement the most efficient algorithm to solve the given problem.
 
@@ -32,16 +28,53 @@ Example:
 7
 """
 
+from collections import deque
+
 def longest_path(graph: list) -> int:
-    # Your implementation goes here
-    pass
+    n = len(graph)
+    
+    # Perform topological sort
+    topo_order = topological_sort(graph)
+    
+    # Calculate the longest path using topological order
+    return calculate_longest_path(graph, topo_order)
 
 # Helper function to perform topological sort
 def topological_sort(graph):
-    # Your implementation goes here
-    pass
+    n = len(graph)
+    in_degree = [0] * n
+    for u in range(n):
+        for v, _ in graph[u]:
+            in_degree[v] += 1
 
-# Function to calculate longest path using topological sort
+    queue = deque([i for i in range(n) if in_degree[i] == 0])
+    topo_order = []
+
+    while queue:
+        node = queue.popleft()
+        topo_order.append(node)
+        for neighbor, _ in graph[node]:
+            in_degree[neighbor] -= 1
+            if in_degree[neighbor] == 0:
+                queue.append(neighbor)
+
+    return topo_order
+
+# Calculate longest path using topological sort
 def calculate_longest_path(graph, topo_order):
-    # Your implementation goes here
-    pass
+    n = len(graph)
+    dist = [-float('inf')] * n
+
+    # Initialize distances to 0 for all nodes since we can start from any node
+    for i in range(n):
+        dist[i] = 0
+
+    # Process nodes in topological order
+    for u in topo_order:
+        for v, weight in graph[u]:
+            if dist[v] < dist[u] + weight:
+                dist[v] = dist[u] + weight
+
+    return max(dist)
+
+

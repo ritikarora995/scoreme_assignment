@@ -1,3 +1,7 @@
+# Output
+
+![alt text](output.png)
+
 # Longest Path in a Weighted Directed Acyclic Graph (DAG)
 
 ## Instructions
